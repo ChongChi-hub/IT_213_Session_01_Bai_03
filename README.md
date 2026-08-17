@@ -1,6 +1,9 @@
 # Bài 3: Phân tích Tài chính — Tính toán chi phí AI
 
+**Sinh viên thực hiện:** Đào Trọng Trí (Mã SV: PTIT062)
+
 ## 1. Tính toán chi phí cơ bản (chưa tính lỗi)
+Em xin phép thực hiện tính toán các chi phí như sau:
 - **Tổng số hóa đơn 1 ngày:** 10,000
 - **Tổng Token Input 1 ngày:** 10,000 × 1,500 = 15,000,000 tokens (15M)
 - **Tổng Token Output 1 ngày:** 10,000 × 500 = 5,000,000 tokens (5M)
@@ -32,7 +35,7 @@
 ---
 
 ## 3. Phân tích Trade-off Kiến trúc (Direct API vs Aggregator)
-Đứng dưới góc độ Kỹ sư giải pháp, quyết định chọn mô hình cho dự án lâu dài không chỉ dựa vào giá tiền mà phải xét đến các yếu tố phi tài chính:
+Đứng dưới góc độ Kỹ sư giải pháp, em nhận thấy quyết định chọn mô hình cho dự án lâu dài không chỉ dựa vào giá tiền mà phải xét đến các yếu tố phi tài chính:
 
 1. **Vendor Lock-in (Sự phụ thuộc nhà cung cấp):** 
    - **Direct API:** Khá rủi ro. Nếu DeepSeek tăng giá hoặc thay đổi chính sách, việc chuyển đổi sang nhà cung cấp khác có thể yêu cầu sửa đổi thư viện/SDK trong hệ thống.
@@ -44,6 +47,6 @@
    - **Direct API:** Tốt hơn do SLA được cam kết trực tiếp từ một điểm chạm duy nhất.
    - **Aggregator:** Kém hơn (như đề bài đã nêu là 0.5% lỗi). Tính ổn định phụ thuộc vào 2 yếu tố: Server của Aggregator VÀ Server của nhà cung cấp LLM. Nếu 1 trong 2 gặp sự cố, hệ thống đều lỗi. Yêu cầu hệ thống phải có cơ chế Retry/Circuit Breaker mạnh mẽ.
 
-**Quyết định:**
-- Nếu dự án là hệ thống xử lý nội bộ (back-office) chạy theo batch/lô như trích xuất hóa đơn, không yêu cầu độ phản hồi real-time khắt khe -> **Chọn Mô hình B (Aggregator)** để tối ưu chi phí và chống Vendor Lock-in linh hoạt đổi mô hình sau này.
-- Nếu dự án là hệ thống Core ảnh hưởng trực tiếp tới trải nghiệm người dùng cuối (ví dụ Chatbot Real-time CSKH) yêu cầu độ trễ thấp và SLA > 99.9% -> Nên cân nhắc **Mô hình A (Direct API)**.
+**Quyết định đề xuất của em:**
+- Nếu dự án là hệ thống xử lý nội bộ (back-office) chạy theo batch/lô như trích xuất hóa đơn, không yêu cầu độ phản hồi real-time khắt khe -> Theo em, nên **chọn Mô hình B (Aggregator)** để tối ưu chi phí và tránh Vendor Lock-in, giúp linh hoạt đổi mô hình sau này.
+- Nếu dự án là hệ thống Core ảnh hưởng trực tiếp tới trải nghiệm người dùng cuối (ví dụ Chatbot Real-time CSKH) yêu cầu độ trễ thấp và SLA > 99.9% -> Em đề xuất cân nhắc **Mô hình A (Direct API)**.
